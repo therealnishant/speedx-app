@@ -1,72 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SpeedX App</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpeedX Pro</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-      text-align: center;
-    }
+<style>
+  body {
+    margin: 0;
+    background: #050b1a;
+    color: white;
+    font-family: Arial;
+    text-align: center;
+  }
 
-    .container {
-      padding: 40px;
-    }
+  h1 {
+    margin-top: 30px;
+  }
 
-    .speed {
-      font-size: 60px;
-      margin: 20px 0;
-      color: #38bdf8;
-    }
+  .meter {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    margin: 40px auto;
+    border: 6px solid rgba(255,255,255,0.1);
+    position: relative;
+    box-shadow: 0 0 30px #00e5ff33;
+  }
 
-    button {
-      padding: 12px 20px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      background: #22c55e;
-      color: white;
-      cursor: pointer;
-    }
+  .needle {
+    width: 4px;
+    height: 120px;
+    background: #00e5ff;
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform-origin: bottom;
+    transform: rotate(-90deg);
+    box-shadow: 0 0 10px #00e5ff;
+  }
 
-    button:hover {
-      background: #16a34a;
-    }
-  </style>
+  .speed {
+    font-size: 40px;
+    margin-top: -20px;
+    color: #00e5ff;
+  }
+
+  button {
+    padding: 12px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    background: #22c55e;
+    color: white;
+  }
+</style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>🚀 SpeedX Tracker</h1>
-    <p>Real-time speed using GPS</p>
 
-    <div class="speed" id="speed">0 km/h</div>
+<h1>🚀 SpeedX Pro</h1>
 
-    <button onclick="startTracking()">Start Tracking</button>
-  </div>
+<div class="meter">
+  <div class="needle" id="needle"></div>
+</div>
 
-  <script>
-    function startTracking() {
-      if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(function(position) {
-          const speed = position.coords.speed;
+<div class="speed" id="speed">0 km/h</div>
 
-          if (speed !== null) {
-            const kmh = (speed * 3.6).toFixed(2);
-            document.getElementById("speed").innerText = kmh + " km/h";
-          } else {
-            document.getElementById("speed").innerText = "Speed not available";
-          }
-        });
-      } else {
-        alert("Geolocation not supported");
-      }
+<button onclick="startTracking()">Start</button>
+
+<script>
+function startTracking() {
+  navigator.geolocation.watchPosition(function(pos) {
+    let speed = pos.coords.speed;
+
+    if (speed !== null) {
+      let kmh = speed * 3.6;
+      document.getElementById("speed").innerText = kmh.toFixed(1) + " km/h";
+
+      let angle = Math.min(kmh * 2, 180) - 90;
+      document.getElementById("needle").style.transform = "rotate(" + angle + "deg)";
     }
-  </script>
+  });
+}
+</script>
+
 </body>
 </html>
