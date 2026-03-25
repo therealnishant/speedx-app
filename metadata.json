@@ -1,0 +1,5 @@
+{
+  "name": "SpeedX – Smart Speed Tracker",
+  "description": "A modern, neon-themed GPS speedometer with real-time tracking, challenge modes, and performance stats.",
+  "requestFramePermissions": ["geolocation"]
+}
