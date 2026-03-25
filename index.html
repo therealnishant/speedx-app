@@ -1,13 +1,72 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpeedX App</title>
 
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+    }
+
+    .container {
+      padding: 40px;
+    }
+
+    .speed {
+      font-size: 60px;
+      margin: 20px 0;
+      color: #38bdf8;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #22c55e;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #16a34a;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>🚀 SpeedX Tracker</h1>
+    <p>Real-time speed using GPS</p>
+
+    <div class="speed" id="speed">0 km/h</div>
+
+    <button onclick="startTracking()">Start Tracking</button>
+  </div>
+
+  <script>
+    function startTracking() {
+      if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(function(position) {
+          const speed = position.coords.speed;
+
+          if (speed !== null) {
+            const kmh = (speed * 3.6).toFixed(2);
+            document.getElementById("speed").innerText = kmh + " km/h";
+          } else {
+            document.getElementById("speed").innerText = "Speed not available";
+          }
+        });
+      } else {
+        alert("Geolocation not supported");
+      }
+    }
+  </script>
+</body>
+</html>
